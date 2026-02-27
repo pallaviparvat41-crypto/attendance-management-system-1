@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance Management System</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        input, select, button {
+            padding: 8px;
+            margin: 5px;
+        }
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            width: 90%;
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        th {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Attendance Management System</h2>
+
+<input type="text" id="name" placeholder="Student Name">
+<input type="text" id="roll" placeholder="Roll Number">
+<input type="date" id="date">
+<input type="time" id="time">
+
+<select id="status">
+    <option value="Present">Present</option>
+    <option value="Absent">Absent</option>
+</select>
+
+<button onclick="addData()">Submit</button>
+<button onclick="downloadCSV()">Download Excel</button>
+
+<br><br>
+
+<table id="attendanceTable">
+    <tr>
+        <th>Name</th>
+        <th>Roll</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Status</th>
+    </tr>
+</table>
+
+<script>
+let data = [];
+
+function addData() {
+    let name = document.getElementById("name").value;
+    let roll = document.getElementById("roll").value;
+    let date = document.getElementById("date").value;
+    let time = document.getElementById("time").value;
+    let status = document.getElementById("status").value;
+
+    if(name === "" || roll === "") {
+        alert("Please fill all details");
+        return;
+    }
+
+    let table = document.getElementById("attendanceTable");
+    let row = table.insertRow(-1);
+
+    row.insertCell(0).innerHTML = name;
+    row.insertCell(1).innerHTML = roll;
+    row.insertCell(2).innerHTML = date;
+    row.insertCell(3).innerHTML = time;
+    row.insertCell(4).innerHTML = status;
+
+    data.push([name, roll, date, time, status]);
+
+    document.getElementById("name").value = "";
+    document.getElementById("roll").value = "";
+}
+
+function downloadCSV() {
+    let csv = "Name,Roll,Date,Time,Status\n";
+    data.forEach(function(row) {
+        csv += row.join(",") + "\n";
+    });
+
+    let blob = new Blob([csv], { type: 'text/csv' });
+    let a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "attendance.csv";
+    a.click();
+}
+</script>
+
+</body>
+</html>
