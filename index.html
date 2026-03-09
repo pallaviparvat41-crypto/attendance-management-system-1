@@ -41,9 +41,7 @@
     <option value="Absent">Absent</option>
 </select>
 
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSeebtgx3yg6ocIa0i3Jsgr8o4sGuBM1YtBzWor1zGavb-uJxA/viewform?usp=header" target="_blank">
-  <button>Submit Attendance</button>
-</a>
+<button onclick="addData()">Submit Attendance</button>
 <button onclick="downloadCSV()">Download Excel</button>
 
 <br><br>
@@ -61,32 +59,37 @@
 <script>
 let data = JSON.parse(localStorage.getItem("attendanceData")) || [];
 
-function addData() {
-    let name = document.getElementById("name").value;
-    let roll = document.getElementById("roll").value;
-    let date = document.getElementById("date").value;
-    let time = document.getElementById("time").value;
-    let status = document.getElementById("status").value;
+function addData(){
 
-    if(name === "" || roll === "") {
-        alert("Please fill all details");
-        return;
-    }
+let name = document.getElementById("name").value;
+let roll = document.getElementById("roll").value;
+let date = document.getElementById("date").value;
+let time = document.getElementById("time").value;
+let status = document.getElementById("status").value;
 
-    let table = document.getElementById("attendanceTable");
-    let row = table.insertRow(-1);
-
-    row.insertCell(0).innerHTML = name;
-    row.insertCell(1).innerHTML = roll;
-    row.insertCell(2).innerHTML = date;
-    row.insertCell(3).innerHTML = time;
-    row.insertCell(4).innerHTML = status;
-
-    data.push([name, roll, date, time, status]);
-localStorage.setItem("attendanceData", JSON.stringify(data));
-    document.getElementById("name").value = "";
-    document.getElementById("roll").value = "";
+if(name === "" || roll === ""){
+alert("Please fill all details");
+return;
 }
+
+let table = document.getElementById("attendanceTable");
+let row = table.insertRow(-1);
+
+row.insertCell(0).innerHTML = name;
+row.insertCell(1).innerHTML = roll;
+row.insertCell(2).innerHTML = date;
+row.insertCell(3).innerHTML = time;
+row.insertCell(4).innerHTML = status;
+
+data.push([name, roll, date, time, status]);
+
+localStorage.setItem("attendanceData", JSON.stringify(data));
+
+document.getElementById("name").value="";
+document.getElementById("roll").value="";
+
+}
+    
 function loadData() {
 
 let table = document.getElementById("attendanceTable");
