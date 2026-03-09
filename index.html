@@ -59,7 +59,7 @@
 </table>
 
 <script>
-let data = [];
+let data = JSON.parse(localStorage.getItem("attendanceData")) || [];
 
 function addData() {
     let name = document.getElementById("name").value;
@@ -83,11 +83,27 @@ function addData() {
     row.insertCell(4).innerHTML = status;
 
     data.push([name, roll, date, time, status]);
-
+localStorage.setItem("attendanceData", JSON.stringify(data));
     document.getElementById("name").value = "";
     document.getElementById("roll").value = "";
 }
+function loadData() {
 
+let table = document.getElementById("attendanceTable");
+
+data.forEach(function(rowData){
+
+let row = table.insertRow(-1);
+
+row.insertCell(0).innerHTML = rowData[0];
+row.insertCell(1).innerHTML = rowData[1];
+row.insertCell(2).innerHTML = rowData[2];
+row.insertCell(3).innerHTML = rowData[3];
+row.insertCell(4).innerHTML = rowData[4];
+
+});
+
+}
 function downloadCSV() {
     let csv = "Name,Roll,Date,Time,Status\n";
     data.forEach(function(row) {
@@ -100,6 +116,7 @@ function downloadCSV() {
     a.download = "attendance.csv";
     a.click();
 }
+    loadData();
 </script>
 
 </body>
